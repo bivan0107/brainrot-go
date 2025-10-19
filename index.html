@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>BrainRot GO</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0b0f14" />
+
+  <!-- Leaflet (карта) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Topbar -->
+  <div id="topbar" class="glass">
+    <div class="left">
+      <button id="btnCenter" class="icon" title="Центр на мне">📍</button>
+      <button id="btnSettings" class="icon" title="Настройки">⚙️</button>
+      <button id="btnBaseMenu" class="icon" title="База">🏠</button>
+    </div>
+    <div class="right">
+      <span id="hudMoney">₽ 0</span>
+      <span class="sep">•</span>
+      <span id="hudPending">+0</span>
+      <span class="sep">•</span>
+      <span id="hudSlots">0/8</span>
+    </div>
+  </div>
+
+  <!-- Карта -->
+  <div id="map"></div>
+
+  <!-- Тосты -->
+  <div id="toaster"></div>
+
+  <!-- Нижняя шторка: база -->
+  <div id="sheetBase" class="sheet">
+    <div class="handle"></div>
+    <h3>База</h3>
+    <div class="row">
+      <div><b>Слоты:</b> <span id="baseSlots">0/8</span></div>
+      <div><b>В ожидании:</b> <span id="basePending">0</span></div>
+    </div>
+    <div class="actions">
+      <button id="btnCollect" class="primary">Собрать</button>
+      <button id="btnSell" class="danger">Продать одного</button>
+      <button id="btnCloseBase" class="ghost">Закрыть</button>
+    </div>
+    <div id="ownedList" class="list"></div>
+  </div>
+
+  <!-- Нижняя шторка: настройки -->
+  <div id="sheetSettings" class="sheet">
+    <div class="handle"></div>
+    <h3>Настройки</h3>
+
+    <div class="card">
+      <div class="card-title">База</div>
+      <div class="card-row">
+        <button id="btnMoveBase" class="primary">Поставить базу здесь</button>
+        <div id="cooldownInfo" class="muted"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Аватар игрока</div>
+      <div class="avatar-row">
+        <button data-avatar="dot" class="chip">● Точка</button>
+        <button data-avatar="ring" class="chip">◎ Кольцо</button>
+        <button data-avatar="arrow" class="chip">➤ Стрелка</button>
+        <button id="btnAvatarUpload" class="chip">🖼 Загрузить</button>
+        <input id="inputAvatar" type="file" accept="image/*" hidden />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Контент</div>
+      <div class="card-row">
+        <button id="btnImportZip" class="ghost">Импорт ZIP</button>
+        <input id="inputZip" type="file" accept=".zip" hidden />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Сохранение</div>
+      <div class="card-row">
+        <button id="btnExportSave" class="ghost">Экспорт прогресса</button>
+        <button id="btnImportSave" class="ghost">Импорт прогресса</button>
+        <input id="inputSave" type="file" accept="application/json" hidden />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">О программе</div>
+      <div class="muted small">
+        Карта: CartoDB Dark Matter • Спавн в 200 м, покупка ≤ 15 м •
+        Деспавн в 300 м • Доход каждую секунду (собирается у базы)
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnCloseSettings" class="ghost">Закрыть</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>
